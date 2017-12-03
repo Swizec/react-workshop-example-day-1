@@ -8,9 +8,9 @@ const CenteredList = styled.div`
     margin: 0 auto;
 `;
 
-const TicketList = ({ tickets, N, children }) => (
+const TicketList = ({ tickets, N, onHide, children }) => (
     <CenteredList>
-        {tickets.slice(0, N).map(info => children({ info }))}
+        {tickets.slice(0, N).map(info => children({ info, onHide }))}
     </CenteredList>
 );
 

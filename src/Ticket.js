@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import format from "date-fns/format";
+import { Button } from "./FormElements";
 
 const TicketStyle = styled.div`
     display: flex;
@@ -23,6 +24,11 @@ const Thumbnail = styled.img`
 `;
 
 class Ticket extends Component {
+    hide = () => {
+        const { info: { id }, onHide } = this.props;
+        onHide({ id });
+    };
+
     render() {
         const { images, name, eventDateLocal, description } = this.props.info;
 
@@ -39,6 +45,7 @@ class Ticket extends Component {
                     </p>
                     <p>{description}</p>
                 </TicketMeta>
+                <Button onClick={this.hide} label="Hide Me" />
             </TicketStyle>
         );
     }

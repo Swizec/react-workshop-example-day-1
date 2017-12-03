@@ -15,24 +15,52 @@ const Container = styled.div`
     padding-top: 30px;
 `;
 
+const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+`;
+
 class App extends Component {
     state = {
-        N: 2
+        N: 2,
+        hidden: []
     };
 
-    addMore = () =>
+    more = () =>
         this.setState({
             N: this.state.N + 1
         });
+
+    fewer = () =>
+        this.setState({
+            N: this.state.N - 1
+        });
+
+    hideTicket = ({ id }) =>
+        this.setState({ hidden: [...this.state.hidden, id] });
 
     render() {
         const { N } = this.state;
 
         return (
             <Container>
-                <Button onClick={this.addMore} label="More Tickets" />
-                <TicketList tickets={data.events} N={N}>
-                    {({ info }) => <Ticket info={info} key={info.id} />}
+                <Row>
+                    <Button onClick={this.more} label="More Tickets" />
+                    {N > 0 ? (
+                        <Button onClick={this.fewer} label="Fewer Tickets" />
+                    ) : null}
+                </Row>
+                <TicketList
+                    tickets={data.events.filter(
+                        ({ id }) => !this.state.hidden.includes(id)
+                    )}
+                    N={N}
+                    onHide={this.hideTicket}
+                >
+                    {({ info, onHide }) => (
+                        <Ticket info={info} key={info.id} onHide={onHide} />
+                    )}
                 </TicketList>
             </Container>
         );
